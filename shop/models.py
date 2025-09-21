@@ -1,6 +1,6 @@
-from django.db import models
-from django.template.defaulttags import firstof
+from django.urls import reverse
 
+from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
@@ -16,6 +16,11 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse(
+            'shop:product_list_by_category', args=[self.slug]
+        )
 
 
 class Product(models.Model):
@@ -47,3 +52,8 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse(
+            'shop:product_detail',
+            args=[self.id, self.slug]
+        )
